@@ -17,7 +17,7 @@ DevOps Technical Test
 1. Clone the repository:
   ```
   git clone https://github.com/andrewjacksonio/simulated-robot.git
-  cd simulated-robot-control-system
+  cd simulated-robot
   ```
 
 2. Install the required Python packages:
@@ -25,13 +25,16 @@ DevOps Technical Test
   pip install -r requirements.txt
   ```
 
-3. Create the configuration file for the simulated robot:
+3. Create the configuration file for the simulated robot.  If configuration file is not created, default values will be used:
   ```yaml
   # config.yml
   config:
-    port: 8888
-    sndbuf: 8192
-    rcvbuf: 8192
+    robot:
+      port: 8888
+      sndbuf: 8192
+      rcvbuf: 8192
+    controller:
+      port: 5000
   ```
 
 ## Usage
@@ -44,4 +47,10 @@ DevOps Technical Test
   python simulated_robot.py
   ```
 
-  This will start the simulated robot, which listens on the port specified in `config.yml`.
+2. **Start the Controller:**
+
+  In a separate terminal, start the controller:
+
+  ```
+  python controller.py
+  ```

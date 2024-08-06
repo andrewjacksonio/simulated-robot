@@ -6,9 +6,9 @@ try:
   with open("config.yml", "r") as file:
     config = yaml.safe_load(file)['config']
 
-    port = config['port']
-    sndbuf = config['sndbuf']
-    rcvbuf = config['rcvbuf']
+    port = config['robot']['port']
+    sndbuf = config['robot']['sndbuf']
+    rcvbuf = config['robot']['rcvbuf']
 except IOError:
   print("Error: Configuration file does not appear to exist.  Using default values.")
   port = 8888
