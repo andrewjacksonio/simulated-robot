@@ -33,35 +33,35 @@ cursor.execute('''CREATE TABLE IF NOT EXISTS instructions_log (
 conn.commit()
 
 def send_instruction_to_robot(instruction, sender_ip):
-    message = json.dumps({'sender': sender_ip, 'instruction': instruction})
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-        sock.connect((ROBOT_HOST, ROBOT_PORT))
-        sock.sendall(message.encode('utf-8'))
-        response = sock.recv(1024)
-    return response.decode('utf-8')
+  message = json.dumps({'sender': sender_ip, 'instruction': instruction})
+  with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+    sock.connect((ROBOT_HOST, ROBOT_PORT))
+    sock.sendall(message.encode('utf-8'))
+    response = sock.recv(1024)
+  return response.decode('utf-8')
 
 @app.route('/send_instruction', methods=['POST'])
 def send_instruction():
-    instruction = request.json.get('instruction')
-    if instruction not in ['start', 'stop', 'left', 'right', 'forward', 'back']:
-        return jsonify({'error': 'Invalid instruction'}), 400
+  instruction = request.json.get('instruction')
+  if instruction not in ['start', 'stop', 'left', 'right', 'forward', 'back']:
+    return jsonify({'error': 'Invalid instruction'}), 400
 
-    ip_address = request.remote_addr
-    timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-    http_method = request.method
+  ip_address = request.remote_addr
+  timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+  http_method = request.method
 
-    # Log the instruction to SQLite database
-    cursor.execute("INSERT INTO instructions_log (timestamp, ip_address, http_method, instruction) VALUES (?, ?, ?, ?)",
-                   (timestamp, ip_address, http_method, instruction))
-    conn.commit()
+  # Log the instruction to SQLite database
+  cursor.execute("INSERT INTO instructions_log (timestamp, ip_address, http_method, instruction) VALUES (?, ?, ?, ?)",
+                (timestamp, ip_address, http_method, instruction))
+  conn.commit()
 
-    # Send instruction to robot and get response
-    response = send_instruction_to_robot(instruction, ip_address)
+  # Send instruction to robot and get response
+  response = send_instruction_to_robot(instruction, ip_address)
     
-    if response == "OK":
-        return jsonify({'status': 'OK'}), 200
-    else:
-        return jsonify({'error': 'Failed to send instruction to robot'}), 500
+  if response == "OK":
+    return jsonify({'status': 'OK'}), 200
+  else:
+    return jsonify({'error': 'Failed to send instruction to robot'}), 500
 
 if __name__ == '__main__':
-    app.run(port=CONTROLLER_PORT, debug=True)
+  app.run(port=CONTROLLER_PORT, debug=True)
