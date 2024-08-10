@@ -18,7 +18,7 @@ steps:
     branches: "!master"
     
   - command:
-    - "docker buildx build -t controller:$$BUILDKITE_COMMIT -f Dockerfile.simulated_robot ."
+    - "docker buildx build -t simulated_robot:$$BUILDKITE_COMMIT -f Dockerfile.simulated_robot ."
     - "aws ecr get-login-password --region $$AWS_REGION | docker login --username AWS --password-stdin $$AWS_ACCOUNT_NUMBER.dkr.ecr.$$AWS_REGION.amazonaws.com"
     - "docker tag simulated_robot:$$BUILDKITE_COMMIT $$AWS_ACCOUNT_NUMBER.dkr.ecr.$$AWS_REGION.amazonaws.com/simulated_robot:latest"
     - "docker push $$AWS_ACCOUNT_NUMBER.dkr.ecr.$$AWS_REGION.amazonaws.com/simulated_robot:latest"
