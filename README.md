@@ -13,7 +13,7 @@ DevOps Technical Test
 ### Prerequisites
 
 - Python 3.7 or higher
-- Required Python packages: `PyYAML`
+- Required Python packages: `PyYAML`, `Flask`, `requests`, `sqlite3`
 
 ### Installation
 
