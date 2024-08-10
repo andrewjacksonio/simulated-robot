@@ -63,5 +63,10 @@ def send_instruction():
   else:
     return jsonify({'error': 'Failed to send instruction to robot'}), 500
 
+# Added root path for target group health check
+@app.route('/', methods=['GET'])
+def home():
+  return 'OK', 200
+
 if __name__ == '__main__':
   app.run(port=CONTROLLER_PORT, debug=True)
