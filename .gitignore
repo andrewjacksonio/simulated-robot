@@ -1,0 +1,19 @@
+# Ignores for Python intermediate files and directories
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.egg
+*.egg-info/
+dist/
+build/
+*.so
+
+# Ignore Pip virtual environment directories
+venv/
+.env/
+env/
+
+# Ignore the .terraform directory
+.terraform/
+.terraform.lock.*
